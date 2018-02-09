@@ -40,4 +40,4 @@ ADD symfony.pool.conf /etc/php7/php-fpm.d/
 CMD ["php-fpm7", "-F"]
 
 WORKDIR /var/www/symfony
-EXPOSE 9000
+EXPOSE 9001

@@ -1,7 +1,9 @@
 version: '2'
 services:
+
     db:
         image: mysql
+        container_name: db
         ports:
             - "3306:3306"
         environment:
@@ -9,26 +11,33 @@ services:
             MYSQL_DATABASE: symfony
             MYSQL_USER: symfony
             MYSQL_PASSWORD: symfony
+
     php:
         build: ./php-fpm
+        container_name: fpm
         ports:
-            - "9000:9000"
+            - "9001:9001"
         volumes:
             - ./symfony:/var/www/symfony:cached
             - ./logs/symfony:/var/www/symfony/var/logs:cached
         links:
             - db
+
     nginx:
         build: ./nginx
+        container_name: nginx
         ports:
             - "80:80"
+            - "443:443"
         links:
             - php
         volumes_from:
             - php
         volumes:
             - ./logs/nginx/:/var/log/nginx:cached
+
     elk:
+        container_name: elk
         image: willdurand/elk
         ports:
             - "81:80"
